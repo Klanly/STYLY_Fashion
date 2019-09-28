@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1337877057
+CRC: 4250546881
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8b2b85da1c1ca3e0c1d0f84af43bba34
+    Hash: 592effdb490322179642e0d80101d1d6
   TypeTreeHash:
     serializedVersion: 2
-    Hash: bc193d49e7d16f71ac778acf3c7bfc27
+    Hash: 6fa9ce387392089bc59dd886979cd053
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -17,8 +17,6 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 23
   Script: {instanceID: 0}
-- Class: 28
-  Script: {instanceID: 0}
 - Class: 33
   Script: {instanceID: 0}
 - Class: 43
@@ -26,5 +24,5 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 Assets:
-- Assets/styly_temp/9b97ff4c-0371-45e4-b15b-0cee1688bffe.prefab
+- Assets/styly_temp/dc386d60-f667-463e-9661-587383a54c76.prefab
 Dependencies: []

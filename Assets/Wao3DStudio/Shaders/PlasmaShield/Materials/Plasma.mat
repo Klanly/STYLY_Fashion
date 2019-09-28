@@ -20,11 +20,11 @@ Material:
     m_TexEnvs:
     - _AlphaTexture01:
         m_Texture: {fileID: 2800000, guid: d1d4209b4e4ca634c87ff2eadb88ef31, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _AlphaTexture02:
         m_Texture: {fileID: 2800000, guid: d78ec426388deed4589bcc980e23787d, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 5, y: 5}
         m_Offset: {x: 0, y: 0}
     - _Ap:
         m_Texture: {fileID: 0}
@@ -307,7 +307,7 @@ Material:
     - _DepthColor: {r: 1, g: 0, b: 0, a: 0}
     - _DiffuseColor: {r: 0.7352941, g: 1, b: 0.9890466, a: 1}
     - _EmisionColor: {r: 0.1617647, g: 0.7572008, b: 1, a: 1}
-    - _EmissionColor: {r: 1, g: 0.88356996, b: 0.7941176, a: 1}
+    - _EmissionColor: {r: 0.88235295, g: 0.90588236, b: 0.93333334, a: 1}
     - _FoamColor: {r: 0.3602941, g: 0.3655925, b: 0.3655925, a: 1}
     - _FogColor: {r: 1, g: 1, b: 1, a: 1}
     - _HitColor: {r: 0.5661765, g: 0.24562067, b: 0.24562067, a: 1}
