@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 7e18b98a12b503c4e8c01829d8dae934
+timeCreated: 1499813494
+licenseType: Store
+ShaderImporter:
+  defaultTextures:
+  - _AlphaTexture02: {fileID: 2800000, guid: d78ec426388deed4589bcc980e23787d, type: 3}
+  - _AlphaTexture01: {fileID: 2800000, guid: 15ae60f11ba510845b1ae29b9c193081, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
