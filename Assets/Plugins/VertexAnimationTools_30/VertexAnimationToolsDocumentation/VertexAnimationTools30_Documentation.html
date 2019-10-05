@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Polyflow - Vertex Animation Tools documentation</title>
+ 	<link rel="shortcut icon" href="/Content/favicon.ico">
+ 
+	    <style>
+			* {
+				font-family: sans-serif;
+				color: #455463;
+				font-size:16px;
+			}
+			
+			a{
+				color:#5D5799;
+ 
+			}
+			
+ 			h3{
+				font-weight: bold; 
+				font-size: 2em;
+				text-align: center;
+				align: center;
+				color: #5D5799;
+			}
+			
+			h4{
+				font-weight: bold; 
+				font-size: 1.2em;
+				text-align: center;
+				align: center;
+				color: #5D5799;
+			}
+			
+			figure{
+				background-Color:red;
+			}
+			
+			.caption{
+				display:block;
+				margin-left:auto;
+				margin-right:auto;
+				text-align:center;
+				margin-bottom:10px;
+				margin-top:10px;
+			}
+			
+			i{
+				font-weight: normal; 
+				color:#5D5799;  
+			}
+			
+			strong{
+				color:#5D5799;
+			}
+			
+			p { 
+				max-width: 1100px; 
+				font-size:16px;
+				margin: 0 0 5px 0; 
+			}
+			
+			ul{
+				 
+				margin: 10 10 10px 0;
+			}
+			
+			li{
+			    max-width: 1100px;
+				padding: 5 5 3px 0px;
+				background: none;
+				position: relative;
+				<!-- font-size: 0.875em; -->
+				display: list-item;
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			
+			img{
+ 
+				display:block;
+				margin-left:auto;
+				margin-right:auto;
+				margin-top:20px;
+				margin-bottom:20px;
+				  <!-- background-Color:Blue;  -->
+			 
+			}	
+			
+			.icon{
+				display:inline;
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+		
+			body{
+				background-Color:rgb(220,220,220);
+			}
+			
+			.tableOfContent{
+				position:fixed;
+				width:240px;
+				top:20px;
+				<!-- background-Color:Red; -->
+			}
+			
+			.tableOfContentList{
+				list-style-type: none;
+				color: blue;
+				 
+ 			}
+ 
+ 			.content{
+  				position: absolute;
+				left:260px;
+				width:900px;
+				display:block;
+				margin-left:auto;
+				margin-right:auto;
+				  <!-- background-Color:Blue;  -->
+			}
+			
+			.important{
+				display:block;
+				margin-left:auto;
+				margin-right:auto;
+				margin-top:20px;
+				margin-bottom:20px;
+				background-color:#ff5959;
+				text-align:center;
+				color:white;
+				padding:10px;
+			}
+			
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+
+			td, th {
+				border: 1px solid #dddddd;
+				text-align: center;
+				padding: 2px;
+				width:33%;
+				font-size: 0.875em; 
+			}
+			
+ 
+
+			tr:nth-child(even) {
+				background-color: rgba(0,0,0,0.05);
+			}
+			
+			table, th, td {
+				border: 1px solid black;
+			}
+			
+		</style>
+	
+		
+
+	</head>
+	
+	<body>
+		<div class="tableOfContent">
+			<ul class="tableOfContentList">
+				<li> <a href="#Overview">Overview</a> </li>
+				<li> <a href="#PointCachePlayer">Point Cache Player</a> </li>
+					<ul class="tableOfContentList">
+						<li> <a href="#CreatePCPA">Create Asset</a>  </li>
+						<li> <a href="#CreatePCPP">Create Player </a> </li>
+						<li> <a href="#PCPP_mesh">Setup Meshes </a> </li>
+						<li> <a href="#PCPP_clip">Setup Clips </a> </li>
+						<li> <a href="#PCPP_constriants">Setup Constraints </a> </li>
+						<li> <a href="#PCPP_playback">Control Playback</a> </li>
+						<li> <a href="#PCPP_raycast">Raycast</a> </li>
+					</ul >
+				</li>	
+				<li>  <a href="#MeshSequencePlayer"> Mesh Sequence Player</a> </li>
+					<ul class="tableOfContentList">
+						<li> <a href="#CreateMS">Create Asset</a>  </li>
+						<li> <a href="#CreateMSP">Create Player </a> </li>
+						<li> <a href="#SetupMS">Setup importing </a> </li>
+						<li> <a href="#PlaybackMS">Control Playback</a> </li>
+					</ul >
+ 
+			</ul >
+ 		</div>
+				
+		<div class="content">
+			<div id="Overview" >
+			<img src="images/VertexAnimationToolsLogo.png"  > 
+		
+			<p> <i>Vertex Animation Tools 3.0</i> is an robust cross platform toolset for import and fast playback any kind of vertex animation.  
+				This package include custom vertex animation exporters from 3ds Max and Cinema4d, two independent pair of runtime 
+				player and its corresponding asset which store animation data.
+				<p>MonoBehaviour components:</p>
+				<ul>
+					<li>
+						 <i>Point Cache Player  <img src="images/PointCachePlayerIcon.png" class="icon"></i>  
+					</li>
+					
+					<li>
+						<i>Mesh Sequence Player <img src="images/MeshSequencePlayerIcon.png" class="icon"></i>
+					</li>
+				 
+				</ul>
+				<p>Both Players use for rendering built-in Renderers so whis way you can handle players like regular meshes : 
+				use Material Property Blocks, enable/disable shadows and so on. </p>
+				
+				<p>ScriptableObject assets:</p>
+				<ul>
+					<li>
+						<i>Point Cache <img src="images/PointCacheIcon.png" class="icon"></i> 
+					</li>
+					
+					<li>
+						<i>Mesh Sequence  <img src="images/MeshSequenceIcon.png" class="icon"></i>
+					</li>
+				 
+				</ul>
+				<p> Each player has its own advantages and limitations, but together they cover most of the vertex animation goals. 
+				 Follow this comparison chart to choose which one suitable for your purposes.</p>
+				 
+			</p>
+			
+			<div class="important">
+			Note that Vertex Animation Tools use his own .obj importer. Recommended to store sources (.pc2 and .obj files,  .obj 
+			files sequences ) outside Assets folder to avoid unnecessary built-in mesh importing. Placing source 
+			files in Asset folder not affects on build size because Point Cache Player and Mesh Sequence Player not
+			refer on them but refer on his own scriptable asset. 
+			</div>
+			
+			
+			<table>
+			  <tr>
+				<th> </th>
+				<th><strong>Point Cache Player</strong></th>
+				<th><strong>Mesh Sequence Player</strong></th>
+			  </tr>
+			  <tr>
+				<td>Purposes</td>
+				<td>cloth simulations,  deformations,    baked skeletal animations </td>
+				<td>construction, demolition, shatter, fluid simulations, cross sections</td>
+			  </tr>
+			  
+			  
+			  <tr>
+				<td> Required built-in Renderer component </td>
+				<td>Skinned Mesh Renderer</td>
+				<td>Mesh Renderer</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Change mesh topology (vertex count or triangle layout) during animations</td>
+				<td>NO</td>
+				<td>YES</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Input sources (option 1)</td>
+				<td>.obj file +  <br> .pc2 files as clip</td>
+				<td>.obj files sequence</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Input sources (option 2)</td>
+				<td>.obj file + <br> .obj files sequence as clip</td>
+				<td>.obj files sequence</td>
+			  </tr>
+		  
+			  <tr>
+				<td>Maximum supported clips count</td>
+				<td>8</td>
+				<td>1</td>
+			  </tr>
+			  		
+					
+			  <tr>
+				<td>Maximum number of frames in the clip </td>
+				<td>infinite</td>
+				<td>infinite</td>
+			  </tr>
+					
+			  <tr>
+				<td>Transfer motion to meshes</td>
+				<td>YES</td>
+				<td>NO</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Surface Constraints</td>
+				<td>YES</td>
+				<td>NO</td>
+			  </tr>
+			  
+			  
+			  <tr>
+				<td>Import custom range</td>
+				<td>YES</td>
+				<td>YES</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Change clip`s frames count</td>
+				<td>YES</td>
+				<td>NO</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Subframe interpolation</td>
+				<td>YES</td>
+				<td>NO</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Motoin smoothing</td>
+				<td>YES</td>
+				<td>NO</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Normalize motion speed</td>
+				<td>YES</td>
+				<td>NO</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Clip looping</td>
+				<td>YES</td>
+				<td>NO</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Debug motion paths</td>
+				<td>YES</td>
+				<td>NO</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Weighted normals</td>
+				<td>YES</td>
+				<td>YES</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Flat shading</td>
+				<td>YES</td>
+				<td>YES</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Exclude normals, tangents, uv</td>
+				<td>NO (always included)</td>
+				<td>YES</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Ambient/Inner Occlusion, Cavity</td>
+				<td>NO</td>
+				<td>YES</td>
+			  </tr>
+			  
+			  
+			  <tr >
+				 <td colspan="3" width="100%"><strong>Max vertices per mesh<strong></td>
+			 </tr>
+			  
+			  <tr>
+				<td>prior to 2017.3</td>
+				<td>65535 </td>
+				<td>65535 </td>
+			  </tr>
+			  
+			  <tr>
+				<td>2017.3 and later</td>
+				<td>4 billion</td>
+				<td>4 billion</td>
+			  </tr>
+			  
+			  
+			 <tr >
+				 <td colspan="3" width="100%"> <strong>Verified campatibility with Digital Content Creation applications</strong> </td>
+			 </tr>
+			  
+			  <tr>
+				<td>Blender</td>
+				<td>1) Built-in export to .pc2 <br>2) Built-in export to .obj sequence</td>
+				<td>  Built-in export to .obj sequence </td>
+			  </tr>
+			  
+			  <tr>
+				<td>Cinema 4D</td>
+				<td> Custom .obj sequence exporter </td>
+				<td> Custom .obj sequence exporter </td>
+			  </tr>
+			  
+			  <tr>
+				<td>3DS Max</td>
+				<td>1) Built-in export to.pc2 <br>  2) Custom .pc2 exporter <br>  3) Custom .obj sequence exporter</td>
+				<td> Custom .obj sequence exporter </td>
+			  </tr>
+			  
+			  <tr>
+				<td>Maya</td>
+				<td>1) Built-in converter to .pc2 <br>2) Thirt party .obj sequence exporter </td>
+				<td> Thirt party .obj sequence exporter</td>
+			  </tr>
+			  
+			  <tr>
+				<td>Marvelous Designer</td>
+				<td>1) Built-in export to.pc2 <br>2) Built-in export to .obj sequence </td>
+				<td> Built-in export to .obj sequence</td>
+			  </tr>
+			  
+			</table>
+			
+	
+			<div id="PointCachePlayer" >	
+			<H3 > Point Cache Player</H3>
+		 
+			<p>
+			<i>Point Cache Player</i> is an MonoBehaviour component that control import and playback of topologically identical vertex animation. 
+			Source mesh vertex count must be identical with source clip vertex count. 		
+			Animation data are stored in <i>Point Cache</i> asset. Multiple <i>Point Cache Players</i> can share one <i>Point Cache</i> asset. 
+			</p>
+			
+			 
+			 
+				 
+			<div class="caption"><p> <i>Point Cache</i> asset and <i>Point Cache Player</i> relationship flowchart</p></div>   
+			<img src="images/PointCacheFlowChart.png">
+			
+			<p>
+			All properties in <i>Import</i> tab will be applied after import is done.  To import press button 
+			</p>
+			<img src="images/ImportButtonDirty.png">
+			
+			<p>
+			If there are no-apllied changed properties import button displays without icon
+			</p>
+			<img src="images/ImportButton.png">
+			
+			<hr>			
+			<div id="CreatePCPA" >	
+			<h4> Create Point Cache Asset  </h4>
+			<p> To create <i>Point Cache</i> asset  use one of the following ways:</p>
+			<ul>
+				<li>
+					 Method 1: Right-click in your project window and select <i> Create > Vertex Animation Tools > Point Cache </i> 
+					 <img src="images/create_pc_asset.png">
+				</li>
+					
+				<li>
+					Method 2: Use the menu <i> Assets > Create > Point Cache</i>
+				</li>
+			</ul>
+			
+ 
+			<p>This will create a new asset in your project.</p>
+			<img src="images/create_pc_asset1.png">
+			<p> <i>Point Cache</i> are project assets and can be shared easily between scenes / players, as well as between different projects.
+			This makes creating animation variants easier (ie. high quality asset for desktop or lower settings for mobile).
+			Selecting a <i>Point Cache</i> asset will show the inspector window with statistcs and one button<p>
+			
+			<hr>
+			<div id="CreatePCPP" >
+			<h4> Create Point Cache Player </h4>
+	 
+			<ul>
+				<li>
+					Method 1: 
+					<ol>
+						<li> Select <i>Point Cache</i> asset</li>
+						<li> Press <i>Create Point Cache Player</i> button. It will create new GameObject with <i>Point Cache Player</i> component that refer on selected <i>Point Cache</i> asset </p>	 </li>
+					</ol>
+				
+				</li>
+			
+				<li>
+					Method 2: 
+					<ol>
+						<li>Create empty Game Object.</li>
+						<li>Add component <i>Component > Scripts > Vertex Animation Tools > Point Cache Player</i> </li>
+						<li> Select asset in <i>Point Cache</i> field. 
+						<img src="images/create_pc_asset2.png">
+					</ol>					
+				</li>
+				
+			</ul>
+			
+			
+			<p>When you select a <i>Point Cache Player</i>, the Inspector shows the Import and Playback options.
+			Now you are ready to setup importing.	
+			</p>
+			
+			<hr>
+			
+			<div id="PCPP_mesh" >
+			<h4> Setup Meshes</h4>
+			<img src="images/Mesh.png">
+			
+			<p>Use Meshes tab to select source and setup meshes. Source recieve Wavefront Obj (.obj). 
+			First(main) Mesh must have same vertices count as clips are, otherwise exporting will be rejected. 
+			Mesh #1 and above can has any vertex count. Vertex Animation Tools automatically transfer clips motion from Mesh #0 
+			to Mesh #1 and above. With this feature you can create Levels Of Details. You do not have to animate all meshes, only #0 one. 
+			<br> Set count of active meshes using <img src="images/PlusMinus.png" class="icon"> buttons. 
+			Once source .obj file selected, statistic string shows mesh info. To refresh info press <img src="images/refresh.png" class="icon">
+			
+			
+			</p>
+			
+			<ul>
+			 
+				<li>  
+					<strong> Smoothing Groups</strong> Controls how smoothing groups is applied to a mesh.  
+					<img src="images/SmoothingGroups.png" >
+				</li>
+				
+				 
+				 
+				<li>  
+					<strong>Normals</strong> Defines how the mesh normals are calculated.    
+					<img src="images/Normals.gif" >
+				</li>
+				
+				 
+			 
+				<li>  
+					<strong>Flip normals</strong> reverse surface orientation   
+					<img src="images/FlipNormals.png" >
+				</li>
+				
+			 				
+			 
+				<li>  
+					<strong>Swap YZ</strong> Swap Y and Z axis of coorinates. Suitable when model has Z axis aligned to up direction.
+ 				</li>
+			 
+			 
+				<li>  
+					<strong>Scale</strong> Mesh scale.
+ 				</li>
+			 
+				
+				<li>  
+					<strong>Mesh compression</strong> Comperessing meshes saves space in the built game, but more compression introduces more artifacts in vertex data.
+ 				</li>
+			 
+				
+				<li>  
+					<strong>Optimize mesh</strong> This option might take a while but will make the geometry displayed be faster
+ 				</li>
+			 
+	 
+			 
+				
+				<li>  
+					<strong>Generate materials</strong> When Enabled, materials will be created and apllied. Set Disabled if you planned to set materials manually in Renderer component.
+ 				</li>
+			 
+				
+				<li>  
+					<strong>Index format</strong> Format of the mesh index buffer data. Index buffer can either be 16 bit (supports up to 65535 vertices in a mesh, takes less memory and bandwidth), or 32 bit (supports up to 4 billion vertices). Supported on 2017.3 or newer.
+ 				</li>
+			 
+				
+				
+			</ul>
+			 
+			 <hr>
+			 
+			<div id="PCPP_clip" >
+			<h4> Setup Clips </h4>
+			<img src="images/clips.png">
+			Set count of used clips using <img src="images/PlusMinus.png" class="icon"> buttons. 
+	 
+			
+	
+			
+			After source was selected info string displays source statistic. 
+			To refresh info press <img src="images/refresh.png" class="icon">
+			If clip and mesh #0 has same vertices count "match up" message will appear.	
+			<img src="images/ClipSourceFile.png">
+			
+			
+			Clip source can be either a .pc2 file or a .obj files sequences. Each .obj file in sequence 
+			must have same vertices count as mesh #0 defined in Meshes tab.
+			<img src="images/PointCacheSource.png">
+			<ul>
+				<li>
+					<strong>Loop</strong> When Enabled aditional last frame will be created from first frame.
+					<img src="images/ClipLoop.gif">
+				</li>
+				
+				
+				<li>
+					<strong>Import Custom Range</strong> When off, all frames in source will be exported, otherwise selected range only.
+					<img src="images/ClipCustomRange.gif">
+				</li>
+				
+				<li>
+					<strong>Transition</strong>  allows make seamless looped clips.  
+					Out of range frames with selected <strong>Length</strong>  will copied into the importing range with dissolving. 
+					For <strong>Begin</strong>  transition last frame of importing range should be less than source length. For <strong>End</strong> transition first frame of  
+					importing range should be greater than zero. For smooth loop use trasition with 50-100% length of importing length.   
+					<img src="images/TransitionExplanation.gif">
+				</li>
+				
+				<li>
+					<strong>Change frames count</strong> Enables custom frames count. As a result, the clip plays over a greater or 
+					lesser number of frames. Descreasing frames count reduce memory usage. Interpolation is the calculation mode of 
+					intermediate frames.
+					<img src="images/ClipChangeFramesCount.gif">
+				</li>
+				
+				<li>
+					<strong>Motion Smoothing</strong>  There are two parameters of smoothing. Iterations is number of smooth passes. 
+					Incresing of Iterations makes more smoothed trajectory.
+					Min-Max and Offset-Length defines smoothing value over clip`s time. Red graph visualize smoothing value. 
+					In folowing example Smooth Value is fixed to 1.0 over all clip time, only Iterations is varied.   
+					<img src="images/ClipMotionSmoothing.gif">
+					Motion Smoothing care about Loop option, so you able blur Start-End transition and make a clip seamless repeated.
+					<img src="images/ClipMotionSmoothingLoop.gif">
+				</li>
+	 
+				<li>
+					<strong>Normalize Speed</strong>  This options makes motion speed constant with 
+					given value of blend with original speed.
+					When Normalize Speed is 1.0, all vertices moves with constant speed.   
+					<img src="images/ClipNormalizeSpeed.gif">
+	 
+				</li>
+				
+				<li>
+					<strong>Generate path</strong>  Motion paths is a position data for vertices over 
+					clip time in object`s local space. Useful for debug preview of clip motion. To display generated paths, enable Draw Motion Paths in Playback tab after importing. 
+					Not forget to disable Motion Paths before final build because paths data increased asset size.
+					<strong>Index step</strong> define index stride of vertices which will be used  generate motion path. 1 means that all vertices will generate their own path.
+
+					<img src="images/MotionPath.png">
+				</li>
+		</ul>	
+ 
+		<hr>
+ 		<div id="PCPP_constriants" >
+		<h4> Setup Constraints </h4>
+		<img src="images/constraintOverview.png">
+		<ul>
+			<li>
+				<strong>Constraint</strong> is a point attached to surface. With Constraints you can manipulate GameObjects - 
+				link it to animated surface, make Look At targets, attach effect emitters itc. 
+				Sails in Ship demo scene uses Constraints to attach ropes.
+				 
+				<ul> 
+				<li> Enable mesh gizmo in <i>Playback</i> tab to display source mesh or set all imported clip`s weights to zero </li>
+				<li> Create desired count of Constraint using <img src="images/PlusMinus.png" class="icon"> buttons. </li>
+				<li> Press <i>Edit mode</i> button. </li>
+				<li> With  Move  and  Rotate tools <img src="images/MoveRotateTool.png" class="icon">  set Constraint position and rotation relative mesh. </li>  
+				<li> After importing is done, open Playback tab. Transform fields will apear.
+					<img src="images/constraintPlayback.png">
+				</li> 
+				<li>Select Transforms in scene you want to be constrainted.
+					<img src="images/constraintMoveInspector.png" > 
+				</li> 
+				
+				<li>Now selected Transforms are linked with animated surface.
+					<img src="images/constraintsMove.gif" > 
+				</li> 
+				
+				</ul>
+			</li>
+		</ul>
+		
+		<hr>
+ 		<div id="PCPP_playback" >
+		<h4> Control Playback </h4>
+		
+		
+		
+	
+		<img src="images/pcpPlaybackInspector.png">
+		<ul>
+			<li> <strong>Update Order</strong>  Event Function used for execution. Select <i>Manually</i> in case player 
+			updated by by code by call UpdatePlayback() method </li>
+			
+			<li> <strong>Use Time Scale</strong> When enabled, Time.timeScale affects the speed of
+			<i>Auto Playback</i>, otherwise it does not.  </li>
+		
+			<li> <strong>Active mesh</strong> which of imported mesh will be displayed? </li>
+			<img src="images/pcpSelectActiveMesh.gif">
+		</ul>
+		
+		
+		<p> <i>Point Cache Player</i> can simultaneously play up to 8 independed clips.  
+		 Each clip has two main animable properties:</p>
+		
+		<ul>
+			<li><strong>Weight</strong> is the multiplier of the influence of the clip. 
+			0 means that the clip is not affect on object at all. Using <i>Weight</i> you can blend clips and make transtions.
+			<img src="images/clipBlend.gif">
+			</li>
+			
+			<li><strong>Normalized Time</strong> is a normalized current time of clip . <br>There are several ways animate 
+			<i>Normalized Time</i>: </li>
+		 
+			<ol>
+				<li>Using <i>Auto Playback</i> and <i>Duration</i> property. <i>Duration</i> is a clip length in seconds.
+					<img src="images/AutoplaybackType.gif">
+				</li>
+				<li>Make Animation clip for <i>Normalized Time</i> property using buit-in Animation.  
+				(Make sure that <i>Auto Playback</i> = None)</li>
+					<img src="images/pcpClipCurve.gif">
+				 
+				<li>Set <i>Normalized Time</i> value in code. (Make sure that <i>Auto Playback</i> = None) 
+				 You can find this scene <i>RadialBar.unity</i> in examples .  	
+					<img src="images/pcpScriptedClip.gif">
+				 </li>
+			</ol>	
+		</ul>
+		
+		<hr>
+ 		<div id="PCPP_raycast" >
+		<h4> Raycast </h4>
+		
+		<p> <i>Point Cache Player</i> has own implementation of Raycast() method. 
+		Internally it uses SkinnedMeshRenderer.BakeMesh() so
+		detailed meshes can impact perfomance. For make raycasting faster use low-poly version of your object.
+		Point Cache Player automatically transfer clip`s motions to these meshes and you will able use any ot they to display or for Raycast()   
+		<br>For example this object use High-polygonal mesh for displaying and low-poly version for raycasting. 
+		</p>   
+		<img src="images/pcRaycastScreen.gif">
+		
+		<p> Import Meshes setup </p>  
+		<img src="images/RaycastMeshes.png">
+		
+		<p>You can find this <i>PCP_raycast.unity</i> scene in examples folder.</p>		
+		<br>
+		
+		<hr>
+		<div id="MeshSequencePlayer" >	
+		<H3>Mesh Sequence Player</H3>
+		
+		<p>
+		<i>Mesh Sequence Player</i> is an MonoBehaviour component that control import and playback any kind of vertex animation.  
+		Its animation data are stored in <i>Mesh Sequence</i> asset. Multiple <i>Mesh Sequence Players</i> can share one <i>Mesh Sequence</i> asset. 
+		Main difference with <i>Point Cache Player</i> is a support topology-non-identical animations. 
+		Every frame in sequence can have different vertices count.
+		<i>Mesh Sequence Player</i> support only one clip , without frame interpolation.  
+		
+		</p>
+				 
+		<div class="caption"><p> <i>Point Cache</i> asset and <i>Point Cache Player</i> relationship flowchart</p></div>   
+		<img src="images/MeshSequenceFlowChart.png">
+		
+		<hr>
+ 		<div id="CreateMS" >
+		<h4> Create Mesh Sequence Asset </h4>
+		<p> To create <i>Point Cache</i> asset  use one of the following ways:</p>
+		
+		
+	 
+		
+		<ul>
+			<li>
+				 Right-click in your project window and select <i> Create > Vertex Animation Tools > Mesh Sequence </i> 
+				<img src="images/create_ms_asset.png">
+			</li>
+					
+			<li>
+				Use the menu <i> Assets > Create > Point Cache</i>
+			</li>
+		</ul>
+			
+		
+		<p>This will create a new asset in your project.</p>
+		<img src="images/create_ms_asset1.png">
+		<p> <i>Mesh Sequence</i> are project assets and can be shared easily between scenes / players, 
+		as well as between different projects.
+		This makes creating animation variants easier (ie. high quality asset for desktop or lower settings for mobile).
+		Selecting a <i>Mesh Sequence</i> asset will show the inspector window with statistcs and one button</p>
+
+		<hr>
+		<div id="CreateMSP" >
+		<h4> Create Mesh Sequence Player </h4>
+	 
+		<ul>
+			<li>
+				Method 1: 
+				<ol>
+					<li> Select <i>Mesh Sequence</i> asset</li>
+					<li> Press <i>Create Mesh Sequence Player</i> button. 
+					It will create new GameObject with <i>Mesh Sequence Player</i> 
+					component that refer on selected <i>Mesh Sequence</i> asset </p>	 </li>
+				</ol>
+				
+			</li>
+			
+			<li>
+				Method 2: 
+				<ol>
+					<li>Create empty Game Object.</li>
+					<li>Add component <i>Component > Scripts > Vertex Animation Tools > Mesh Sequence Player</i> </li>
+					<li> Select asset in <i>Mesh Sequence</i> field. </li>
+	 			</ol>					
+			</li>
+		</ul>
+		
+		<hr>
+ 		<div id="SetupMS" >
+		<h4> Setup Import </h4>
+		<img src="images/MeshSequenceImportInspector.png">
+		</div>
+ 
+		<ul>
+			<li> <strong>.obj sequence</strong> Path to any .obj file in sequence. All .obj files in directory will be loaded as sequence </li>
+			
+			<li> <strong>Import Custom Range</strong> When off, all frames in source will be exported, 
+			otherwise selected range only.</li>
+			
+			<li><strong>Enable UV </strong> Determines whether or not the UV coodinates should be 
+			imported (if exist) and applied to mesh.
+			Must be enabled if shader use textures</li>
+			
+			<li><strong>Calculate normals</strong>  When on, calculates mesh normals. Must be enabled for lit shaders  
+				<ul>
+					<li>  
+						<strong> Smoothing Groups</strong> Controls how smoothing groups is applied to a mesh.  
+						<img src="images/SmoothingGroups.png" >
+					</li>
+					 
+					<li>  
+						<strong>Normals</strong> Defines how the mesh normals are calculated.    
+						<img src="images/Normals.gif" >
+					</li>
+				</ul>
+			</li>
+		 
+			<li><strong>Calculate tangents</strong>  When on, calculates mesh tangents. Tangents is required for normal-mapped shaders  </li>
+		
+			<li>  
+				<strong>Flip normals</strong> reverse surface orientation   
+				<img src="images/FlipNormals.png" >
+			</li>
+				
+			 				
+			 
+			<li>  
+				<strong>Swap YZ</strong> Swap Y and Z axis of coorinates. Suitable when model has Z axis aligned to up direction.
+ 			</li>
+			 
+			 
+			<li>  
+				<strong>Scale</strong> Mesh scale.
+ 			</li>
+			 
+				
+			<li>  
+				<strong>Mesh compression</strong> Comperessing meshes saves space in the built game, but more compression introduces more artifacts in vertex data.
+ 			</li>
+			 
+				
+			<li>  
+				<strong>Optimize mesh</strong> This option might take a while but will make the geometry displayed be faster
+ 			</li>
+				
+			<li>  
+				<strong>Generate materials</strong> When Enabled, materials will be created and apllied. Set Disabled if you planned to set materials manually in Renderer component.
+			</li>
+				
+			<li>  
+				<strong>Index format</strong> Format of the mesh index buffer data. Index buffer can either be 16 bit (supports up to 65535 vertices in a mesh, takes less memory and bandwidth), or 32 bit (supports up to 4 billion vertices). Supported on 2017.3 or newer.
+			</li>
+		
+			<p> <strong>Vertex Color Settings</strong>  This section controls vertex color effects generation.  
+			Displaying vertex color require shader that utilize it.
+			All effects mix additively in vertex color`s alpha channel.			
+			<i>Vertex Animation Tools</i> include 2 unlit vertex color shaders:
+			<ul>
+				<li> shader/custom/VertexAnimationTools/UnlitVertexColorAO </li>
+				<li> shader/custom/VertexAnimationTools/UnlitVertexColorAOTransparent </li>
+			</ul>	
+			You can implement your own vertex color shader for your purposes.
+			
+			</p>
+		
+			<li>  
+				<strong>Cavity</strong> this effect colorize vertices by convexity/concavity of the mesh surface. 
+				Range defines Min-Max angle in degrees where value distributed.
+				
+				<img src="images/Cavity.gif" >
+				<img src="images/cavitySettings.png" >
+			</li>
+		
+
+			<li>  
+				<strong>Inner occlusion</strong>  enables occlusion for points which inside other volume. 
+				It is recommended to use together with AmbientOcclusion  to accentuate the intersections of surfaces.
+				<img src="images/InnerOcclusion.gif" >
+				<img src="images/innerOcclusionSettings.png" >
+			</li>
+		
+			<li>  
+				<strong>Ambient Occlusion</strong> creates soft shadowing, as if the model was lit without a direct light source. 
+				like on a cloudy day.
+				<img src="images/AmbientOcclusion.gif" >
+				<img src="images/aoSettings.png" >
+			</li>
+		
+			<img src="images/VertexColorComplete.gif" >
+			<img src="images/VertexColorCompleteSettings.png" >
+		</ul>
+		
+		
+ 		<hr>
+ 		<div id="PlaybackMS" >
+		<h4> Control Playback </h4>
+		<img src="images/MeshSequencePlayerPlayback.png" >
+		
+		<ul>
+		
+			<li> <strong>Update Order</strong>  Event Function used for execution. Select <i>Manually</i> in case player 
+			updated by by code by call UpdatePlayback() method </li>
+
+			<li><strong>Normalized Time</strong> is a normalized current time of clip. This value is animable  </li>
+						
+			<li><strong>Auto Playback</strong> Simple animators for the NormalizedTime value. Works only in Play mode. Select <i>None</i> when updating manually or by script or custom animation </li>
+		
+			<li><strong>Frames Per Seconds</strong> Auto Playback animation speed  </li>
+		
+			<li> <strong>Use Time Scale</strong> When enabled, Time.timeScale affects the speed of
+			<i>Auto Playback</i>, otherwise it does not.  </li>
+		</ul>
+ 
+		<hr>
+		<div class="caption"><a href="http://polyflow3d.tr.dn.ua"> &#169 Polyflow Studio 2018 </a></div> 
+ 
+	</body>
+	
+	
+	
+	 
+</html>
+ 
