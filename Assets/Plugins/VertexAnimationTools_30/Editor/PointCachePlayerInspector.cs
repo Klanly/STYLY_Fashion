@@ -484,6 +484,7 @@ namespace VertexAnimationTools_30{
         GUIContent s_RefreshMesh ;
 		GUIContent s_RefreshPointCacheClip;
  
+
 		GUIContent s_ChangeFramesCount = new GUIContent("Change frames count","Enables custom frames count. As a result, the clip plays over a greater or lesser number of frames. Descreasing frames count reduce memory usage.");
 		GUIContent s_CustomFramesCount = new GUIContent("Frames count","The new frames count");
 		GUIContent s_SubFramesInterpolationMode = new GUIContent("Interpolation","Interpolation mode controls set how generates new frame. Linear mode uses linear interpolation, Hermite uses curve based algorthm");
@@ -557,7 +558,6 @@ namespace VertexAnimationTools_30{
             }
 
             so_pointCache = new SerializedObject( pc );
-            prp_savePortableData = so_pointCache.FindProperty("SavePortableData");
             prp_constraintHandlesSize = so_pointCache.FindProperty("ConstraintHandlesSize");
             prp_drawConstraintHandlesName = so_pointCache.FindProperty("DrawConstraintHandlesName");
             prp_selectedTabIdx = so_pointCache.FindProperty("SelectedTabIdx");
@@ -578,7 +578,6 @@ namespace VertexAnimationTools_30{
             prp_ImportUsedClipsCount = prp_preImport.FindPropertyRelative("UsedClipsCount");
             prp_ImportUsedMeshCount = prp_preImport.FindPropertyRelative("UsedMeshesCount");
             prp_generateMaterials = prp_preImport.FindPropertyRelative("GenerateMaterials");
-            prp_savePortableData = prp_preImport.FindPropertyRelative("SavePortableData");
 
 
 #if UNITY_2017_3_OR_NEWER
@@ -690,11 +689,9 @@ namespace VertexAnimationTools_30{
             } else if (prp_selectedImportTabIdx.intValue == 2) {
                 DrawImportConstraintsTab( pointCache );
             }
-            EditorGUILayout.PropertyField(prp_savePortableData, s_savePortableData);
             if (EditorGUI.EndChangeCheck()) {
                 so_pointCache.ApplyModifiedProperties();
             }
-
 
             GUILayout.Space(6);
             if (GUILayout.Button(pointCache.ImportSettingsIsDirty ? s_importButtonRequireReimport : s_importButton ) ){
@@ -730,6 +727,8 @@ namespace VertexAnimationTools_30{
             for (int i = 0; i < prp_ImportUsedMeshCount.intValue; i++) {
                 meshed[i].DrawInspector();
             }
+
+
         }
 
         void DrawImportClipsTab(PointCache pointCache) {
@@ -846,7 +845,7 @@ namespace VertexAnimationTools_30{
             }
         }
 
-        void DrawConstraintsGizmos(PointCachePlayer player, PointCache pointCache ) {
+        void DrawConstraintsGizmos(PointCachePlayer player, PointCache pointCache) {
  
             if (handlesHelpers == null || handlesHelpers.Length != pointCache.PreConstraints.Count) {
                 handlesHelpers = new ConstraintHandleHelper[pointCache.PreConstraints.Count];
@@ -882,6 +881,8 @@ namespace VertexAnimationTools_30{
                 Handles.EndGUI();
             }
         }
+
+ 
 
         #region IMPORT
         public void Import(){
@@ -920,111 +921,17 @@ namespace VertexAnimationTools_30{
             AssetDatabase.Refresh();
             currentEditedConstraint = null;
             CollectProperties();
-            string pcAssetPath = Application.dataPath + AssetDatabase.GetAssetPath(pc).Remove(0, 6);
-            FileInfo fi = new FileInfo(pcAssetPath);
+            string path = AssetDatabase.GetAssetPath(pc).Remove(0, 6);
+            string gPath = Application.dataPath + path;
+            FileInfo fi = new FileInfo(gPath);
             pc.AssetFileSize = fi.Length / 1000000f;
             pc.ImportingDate = System.DateTime.Now.ToString();
             EditorUtility.SetDirty(pc);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-
-            if (pc.PostImport.SavePortableData) {
-                string portableOutputDirectory = AssetDatabase.GetAssetPath(pc);
-                portableOutputDirectory = portableOutputDirectory.Remove(portableOutputDirectory.Length - 6 - pc.name.Length);
-                 
-                for (int i = 0; i < pc.PostImport.UsedMeshesCount; i++) {
-                    string portableMeshPath = string.Format("{0}{1} {2}.asset", portableOutputDirectory, pc.name, pc.Meshes[i].Name);
-                    Mesh m = AssetDatabase.LoadAssetAtPath<Mesh>(portableMeshPath);
-                    if (m == null) {
-                        Debug.LogFormat("Create new mesh");
-                        m = Instantiate(pc.Meshes[i].mesh);
-                        AssetDatabase.CreateAsset(m, portableMeshPath);
-                    } else {
-                        Debug.LogFormat("Override existing mesh");
-                        pc.Meshes[i].mesh.CopyDataTo(m);
-                    }
-                }
-
-                for (int i = 0; i < pc.PostImport.UsedClipsCount; i++) {
-                    PointCache.Clip pcclip = pc.Clips[i];
-                    string portableClipPath = string.Format("{0}{1} {2}.anim", portableOutputDirectory, pc.name, pcclip.PostImport.Name);
-                    AnimationClip animClip = AssetDatabase.LoadAssetAtPath<AnimationClip>(portableClipPath);
-                    if (animClip == null) {
-                        animClip = new AnimationClip();
-                        Debug.LogFormat("Create new animation clip");
-                        AssetDatabase.CreateAsset(animClip, portableClipPath);
-                    }  
-                    FillAnimClip(animClip, player.smr,  pcclip.PostImport.FrameIdxOffset, pcclip.PostImport.FramesCount, player.Clips[i].DurationInSeconds, pcclip.PostImport.IsLoop );
-                }
-
-
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-
-
             EditorUtility.ClearProgressBar();
             GUIUtility.ExitGUI();
-        }
-
-        void FillAnimClip(AnimationClip clip, SkinnedMeshRenderer smr, int firstFrame, int framesCount, float duration, bool isLoop) {
-            clip.ClearCurves();
-            if (isLoop) {
-                float step = duration /  framesCount ;
-                float tangent = 100f / step;
-                Debug.LogFormat("{0} loop {1}frames step:{2}", clip.name, framesCount, step.ToString("F4"));
-
-
-                for (int i = 0; i < framesCount; i++) {
-                    string name = "blendShape." + smr.sharedMesh.GetBlendShapeName( firstFrame+i );
-
-                    Keyframe[] keys = null;
-                    if (i == 0) { // first
-                        keys = new Keyframe[4];
-                        keys[0] = new Keyframe(0, 100f, tangent, -tangent);
-                        keys[1] = new Keyframe(step, 0f, -tangent, 0);
-                        keys[2] = new Keyframe((framesCount-1)*step, 0f, 0,  tangent);
-                        keys[3] = new Keyframe(framesCount * step, 100f,  tangent, -tangent);
-                    }  else {
-                        keys = new Keyframe[3];
-                        keys[0] = new Keyframe((i - 1) * step, 0f, tangent, tangent);
-                        keys[1] = new Keyframe(i * step, 100f, tangent, -tangent);
-                        keys[2] = new Keyframe((i + 1) * step, 0f, -tangent, tangent);
-                    }
-
-
-                    AnimationCurve ac = new AnimationCurve(keys);
-                    clip.SetCurve("", typeof(SkinnedMeshRenderer), name, ac);
-                }
-            } else {
-                float step = duration / (framesCount-1);
-                float tangent = 100f / step;
-                Debug.LogFormat("{0} {1}frames step:{2}", clip.name, framesCount, step.ToString("F4"));
-                for (int i = 0; i < framesCount; i++) {
-                    string name = "blendShape." + smr.sharedMesh.GetBlendShapeName( firstFrame+i );
-
-                    Keyframe[] keys = null;
-                    if (i == 0) { // first
-                        keys = new Keyframe[2];
-                        keys[0] = new Keyframe(0, 100f, tangent, -tangent);
-                        keys[1] = new Keyframe(step, 0f, -tangent, tangent);
-                    } else if (i == framesCount - 1) { //last
-                        keys = new Keyframe[2];
-                        keys[0] = new Keyframe((i - 1) * step, 0f, tangent, tangent);
-                        keys[1] = new Keyframe(i * step, 100f, tangent, -tangent);
-                    } else {
-                        keys = new Keyframe[3];
-                        keys[0] = new Keyframe((i - 1) * step, 0f, tangent, tangent);
-                        keys[1] = new Keyframe(i * step, 100f, tangent, -tangent);
-                        keys[2] = new Keyframe((i + 1) * step, 0f, -tangent, tangent);
-                    }
-
-
-                    AnimationCurve ac = new AnimationCurve(keys);
-                    clip.SetCurve("", typeof(SkinnedMeshRenderer), name, ac);
-                }
-            } 
-        }
+        }	
 		#endregion
 
  

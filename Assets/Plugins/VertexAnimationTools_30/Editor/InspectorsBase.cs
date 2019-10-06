@@ -66,9 +66,6 @@ namespace VertexAnimationTools_30 {
         internal SerializedProperty prp_normalRecalculationMode;
         internal GUIContent s_normalRecalculationMode = new GUIContent("Normals", "Defines how the mesh normals are calculated.");
 
-        internal SerializedProperty prp_savePortableData;
-        internal GUIContent s_savePortableData = new GUIContent("Save Portable Data", "Saves Meshes as .mesh and  Clips as .anim assets");
-
 #if UNITY_2017_3_OR_NEWER
         internal SerializedProperty prp_IndexFormat;
         internal GUIContent s_IndexFormat = new GUIContent("Index format", "Format of the mesh index buffer data. Index buffer can either be 16 bit (supports up to 65535 vertices in a mesh, takes less memory and bandwidth), or 32 bit (supports up to 4 billion vertices).");

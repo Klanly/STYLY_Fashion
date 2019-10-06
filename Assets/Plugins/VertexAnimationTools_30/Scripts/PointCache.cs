@@ -272,18 +272,8 @@ namespace VertexAnimationTools_30 {
                         binReader.ReadSingle();//start frame
                         binReader.ReadSingle();//sample rate
                         framesCount = binReader.ReadInt32();
-
-
-#if UNITY_WSA
-                binReader.Dispose();
-                fs.Dispose();
-
-#else
-                        binReader.Close();
                         fs.Close();
-#endif
-
- 
+                        binReader.Close();
                         return vertCount > 0 && framesCount > 0;
                     }
  			 	}
@@ -333,7 +323,6 @@ namespace VertexAnimationTools_30 {
 	 		public int UsedClipsCount;
             public int UsedMeshesCount;
             public bool GenerateMaterials;
-            public bool SavePortableData;
 
 #if UNITY_2017_3_OR_NEWER
             public UnityEngine.Rendering.IndexFormat IndexFormat;
@@ -350,7 +339,6 @@ namespace VertexAnimationTools_30 {
 				UsedClipsCount = usedClipsCount;
                 UsedMeshesCount = 1;
                 GenerateMaterials = true;
-                SavePortableData = false;
  #if UNITY_2017_3_OR_NEWER
               IndexFormat = UnityEngine.Rendering.IndexFormat.UInt16;
 #endif
@@ -414,7 +402,6 @@ namespace VertexAnimationTools_30 {
 
         public float AssetFileSize = 0;
         public string ImportingDate = "n/a";
-
 
 		public GameObject CreatePlayer(){
  	 		GameObject go = new GameObject(string.Format("{0} Point Cache Player", this.name ));

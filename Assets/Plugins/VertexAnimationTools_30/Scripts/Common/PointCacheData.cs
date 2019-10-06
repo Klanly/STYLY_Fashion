@@ -8,6 +8,10 @@ namespace VertexAnimationTools_30 {
 	public class PointCacheData {
 		public string Name;
 	 	public FramesArray Frames;
+
+
+
+
         public PointCache.Clip clip;
         PointCache.Clip.ImportSettings cis;
         public PointCache pointCache;
@@ -146,20 +150,9 @@ namespace VertexAnimationTools_30 {
                     readFramesCounter++;
                     yield return tstack["Read .pc2 file"].GetInfo(readFramesCounter);
                 }
-
-
-#if UNITY_WSA
-                binReader.Dispose();
-                fs.Dispose();
-
-#else
+ 
                 binReader.Close();
                 fs.Close();
-#endif
-
-
-
-
             }
 
             if (cis.TransitionMode == TransitionModeEnum.Begin ) {

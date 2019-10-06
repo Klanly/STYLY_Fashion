@@ -202,7 +202,7 @@ namespace VertexAnimationTools_30{
         public static PFU operator * (PFU a, Matrix4x4 matrix) {
             a.P = matrix.MultiplyPoint3x4( a.P ) ;
             a.F = matrix.MultiplyVector( a.F ) ;
-            a.U = matrix.MultiplyVector( a.U );
+            a.U = matrix.MultiplyVector(a.U);
             return a;
         }
 
@@ -400,6 +400,7 @@ namespace VertexAnimationTools_30{
  
             return mat;
         }
+
  
         public static Vector3[] Copy(Vector3[] source) {
             Vector3[] result = new Vector3[source.Length];
@@ -413,24 +414,6 @@ namespace VertexAnimationTools_30{
                 result[i] = b[i] - a[i];
             }
             return result;
-        }
-
-        public static void CopyDataTo(this Mesh m, Mesh other) {
-            other.Clear();
-            other.ClearBlendShapes();
-            other.vertices = m.vertices;
-            other.normals = m.normals;
-            other.tangents = m.tangents;
-            other.uv = m.uv;
-            other.triangles = m.triangles;
-            for (int i = 0; i<m.blendShapeCount; i++) {
-                Vector3[] bsPos = new Vector3[m.vertexCount];
-                Vector3[] bsNorms = new Vector3[m.vertexCount];
-                Vector3[] bsTangents = new Vector3[m.vertexCount];
-                m.GetBlendShapeFrameVertices(i, 0, bsPos, bsNorms, bsTangents);
-                string shapeName = m.GetBlendShapeName(i);
-                other.AddBlendShapeFrame(shapeName, 100, bsPos, bsNorms, bsTangents);
-            }
         }
 
     }

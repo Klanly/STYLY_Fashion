@@ -990,13 +990,7 @@ namespace VertexAnimationTools_30{
             while (true) {
                 string str = objFile.ReadLine();
                 if (str == null) {
-#if UNITY_WSA
-                    objFile.Dispose();
-#else
-
                     objFile.Close();
-#endif
-
                     break;
                 }
 
@@ -1199,16 +1193,9 @@ namespace VertexAnimationTools_30{
 						submeshesNames.Add(submeshName);
 					}
 				}
-			}
-
-
-#if UNITY_WSA
-                    objFile.Dispose();
-#else
-
-            objFile.Close();
-#endif
-            submeshesCount = submeshesNames.Count;
+			} 
+			objFile.Close();
+			submeshesCount = submeshesNames.Count;
 			return polygonsCount>0 && vertCount>0; 
 		}
 
@@ -1222,13 +1209,7 @@ namespace VertexAnimationTools_30{
                     vertCount++;
                 }
             }
-
-#if UNITY_WSA
-                    objFile.Dispose();
-#else
-
             objFile.Close();
-#endif
             return vertCount > 0;
         }
 
@@ -1257,12 +1238,7 @@ namespace VertexAnimationTools_30{
                     verticesList.Add(defaultPos);
                 }
             }
-#if UNITY_WSA
-                    objFile.Dispose();
-#else
-
             objFile.Close();
-#endif
             return verticesList.ToArray();
         }
 
@@ -1687,9 +1663,9 @@ namespace VertexAnimationTools_30{
 
         public void CopyTo(Mesh m) {
             m.Clear();
-#if UNITY_2017_3_OR_NEWER
+            #if UNITY_2017_3_OR_NEWER
             m.indexFormat = IndexFormat;
-#endif
+            #endif
             m.vertices = UM_vertices;
             m.subMeshCount = refMesh.subMeshCount;
             for (int i = 0; i<refMesh.subMeshCount; i++) {

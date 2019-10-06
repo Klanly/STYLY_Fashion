@@ -64,7 +64,7 @@ namespace VertexAnimationTools_30 {
                 infos[i].ParsedNumber = GetNumberFromName(infos[i].FileName, ref infos[i].Hash);
             }
 
-            if (SortMode == SortModeEnum.ByDate) {
+            if (sortMode == SortModeEnum.ByDate) {
                 System.Array.Sort(infos, InfosDateComparer);
             } else {
                 System.Array.Sort(infos, InfosNumberComparer);

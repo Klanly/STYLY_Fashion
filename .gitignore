@@ -1,4 +1,4 @@
-﻿# =============== #
+# =============== #
 # Unity generated #
 # =============== #
 Temp/ 
@@ -36,3 +36,7 @@ Thumbs.db
 *.pyc #python bytecode cache, for some plugins.
 sysinfo.txt #Unity3D Generated File On Crash Reports
 .idea
+Assets/awaiMotion/
+Assets/awaiMotion001Set.prefab.meta
+Assets/awaiMotion001Set.prefab
+Assets/awaiMotion.meta
